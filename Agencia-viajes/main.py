@@ -1,5 +1,5 @@
 from baseDatos.base_datos import BaseDatos
-from Viajes.viajes import Viaje
+from Clases.viajes import Viaje
 from os import system as sys
 
 OPCIONES = ("Agregar viaje", "Mostrar viajes", "Actualizar precio de viaje", "Actualizar disponibilidad", "Salir")
