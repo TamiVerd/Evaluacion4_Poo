@@ -27,3 +27,25 @@ class Viaje:
 
     def es_disponible(self):
         return self.disponibilidad > 0
+    
+    def agregar_viaje(base_datos):
+        destino = input("Destino: ").title()
+        fecha_salida = input("Fecha de salida (YYYY-MM-DD): ")
+        fecha_regreso = input("Fecha de regreso (YYYY-MM-DD): ")
+        precio = float(input("Precio: "))
+        disponibilidad = int(input("Disponibilidad: "))
+        base_datos.agregar_viaje(destino, fecha_salida, fecha_regreso, precio, disponibilidad)
+        print("Viaje agregado exitosamente.")
+
+    def mostrar_viajes(base_datos):
+        base_datos.mostrar_todos_viajes()
+
+    def actualizar_viaje(base_datos):
+        id_viaje = int(input("ID del viaje: "))
+        campo = input("Campo a actualizar (destino, fecha_salida, fecha_regreso, precio, disponibilidad): ").lower()
+        nuevo_valor = input("Nuevo valor: ")
+        base_datos.actualizar_viaje(id_viaje, campo, nuevo_valor)
+
+    def eliminar_viaje(base_datos):
+        id_viaje = int(input("ID del viaje: "))
+        base_datos.eliminar_viaje(id_viaje)
