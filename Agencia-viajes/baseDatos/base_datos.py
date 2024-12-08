@@ -113,8 +113,8 @@ class BaseDatos:
             print(f"Error al eliminar registro en la tabla '{nombre_tabla}': {e}")
         finally:
             self.desconectar()
-
-    # Funciones específicas para cada tabla
+#-------------------------------------------------------------------------
+# Funciones específicas para cada tabla
     def agregar_destino(self, nombre, pais, descripcion):
         try:
             self.conexion_bd()
@@ -189,7 +189,7 @@ class BaseDatos:
             print(f"Error al agregar reserva: {e}")
         finally:
             self.desconectar()
-
+#------------
     
     def insertar_datos_iniciales(self):
         try:

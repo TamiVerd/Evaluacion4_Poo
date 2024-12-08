@@ -6,6 +6,3 @@ class PaqueteTuristico:
         self.descripcion = descripcion
         self.precio = precio
         self.disponibilidad = disponibilidad
-
-    def __str__(self):
-        return f"{self.nombre} - {self.descripcion} (Precio: ${self.precio}, Disponibilidad: {self.disponibilidad})"
