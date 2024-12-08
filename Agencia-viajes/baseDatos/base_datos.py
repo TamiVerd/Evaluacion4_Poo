@@ -82,6 +82,8 @@ class BaseDatos:
             print(f"Error al crear las tablas: {e}")
         finally:
             self.desconectar()
+    
+#-----------------------------------------------------------------------------------
 
 # Función genérica para mostrar cualquier tabla
     def mostrar_tabla(self, nombre_tabla):
