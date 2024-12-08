@@ -4,6 +4,3 @@ class Destino:
         self.nombre = nombre
         self.pais = pais
         self.descripcion = descripcion
-
-    def __str__(self):
-        return f"{self.nombre}, {self.pais} - {self.descripcion}"

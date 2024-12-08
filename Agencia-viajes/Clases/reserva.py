@@ -6,6 +6,3 @@ class Reserva:
         self.cantidad_plazas = cantidad_plazas
         self.total_pago = total_pago
         self.fecha_reserva = fecha_reserva
-
-    def __str__(self):
-        return f"Reserva {self.id_reserva}: Cliente {self.id_cliente}, Viaje {self.id_viaje}, Total: ${self.total_pago}"
