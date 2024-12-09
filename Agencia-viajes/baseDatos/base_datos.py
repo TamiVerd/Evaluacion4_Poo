@@ -5,7 +5,14 @@ from tabulate import tabulate
 
 class BaseDatos:
     def __init__(self):
-        self.conexion = None
+        try:
+            self.conexion = sqlite3.connect("agencia_viajes.db")
+            self.cursor = self.conexion.cursor()  # Crear cursor inmediatamente si la conexión es válida
+            print("Conexión a la base de datos establecida.")
+        except sqlite3.Error as e:
+            print(f"Error al conectar con la base de datos: {e}")
+            self.conexion = None  # Si hay un error, aseguramos que sea None
+            self.cursor = None
 
     def conexion_bd(self):
         self.conexion = sql.connect("agencia_viajes.db")
@@ -78,6 +85,17 @@ class BaseDatos:
                     FOREIGN KEY (id_viaje) REFERENCES viajes (id_viaje)
                 )
             """)
+
+            # Tabla administradores
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS administradores (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    rut TEXT UNIQUE NOT NULL,
+                    nombre TEXT NOT NULL,
+                    password TEXT NOT NULL
+                )
+            """)
+
 
             print("Tablas creadas exitosamente.")
         except Exception as e:
@@ -284,6 +302,28 @@ class BaseDatos:
             print(f"Error al agregar destino: {e}")
         finally:
             self.desconectar()
+#------------------------------------------------------------
+#administradores
+    def verificar_administrador(self, rut, password):
+        resultado = self.cursor.execute("SELECT * FROM administradores").fetchone()
+        return resultado is not None
+    
+    def registrar_administrador(self, rut, nombre, password):
+        try:
+            self.conexion_bd()
+            cursor = self.conexion.cursor()
+
+            sql= "INSERT INTO administradores (rut, nombre, password)VALUES (?, ?, ?)"
+            cursor.execute(sql, (rut, nombre, password))
+            self.connection.commit()
+            print("Administrador registrado exitosamente.")
+        except Exception as e:
+            print(f"Error al agregar destino: {e}")
+        finally:
+            self.desconectar()
+
+
+
 
 #----------------------------------------------------------------------------------------------------
     

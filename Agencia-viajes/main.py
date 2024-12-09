@@ -5,6 +5,20 @@ from Clases.cliente import Cliente
 from Clases.destino import Destino
 from Clases.reserva import Reserva
 from Clases.paqueteTuristico import PaqueteTuristico
+from Clases.administrador import Administrador
+
+#--------------------------------------------
+def autenticar_administrador(base_datos):
+    print("Iniciar sesión como administrador")
+    rut = input("Ingrese su RUT: ")
+    password = input("Ingrese su contraseña: ")
+    if base_datos.verificar_administrador(rut, password):
+        print("Inicio de sesión exitoso.")
+        return True
+    else:
+        print("Credenciales incorrectas. Acceso denegado.")
+        return False
+
 #--------------------------------------------
 def menu_principal():
     """
@@ -259,6 +273,16 @@ def main():
     base_datos.crear_tablas()
     base_datos.insertar_datos_iniciales()
 
+    # Verificar al administrador
+    rut = input("Ingrese su RUT: ")
+    password = input("Ingrese su contraseña: ")
+
+    if not base_datos.verificar_administrador(rut, password):
+        print("Acceso denegado. RUT o contraseña incorrectos.")
+        exit()  # Salir si no tiene permisos
+
+    print("Acceso permitido. Puede realizar cambios en la base de datos.")
+
     while True:
         sys('cls')  # Limpia la consola
         menu_principal()
@@ -283,4 +307,8 @@ def main():
             print(f"Error: {e}")
 
 if __name__ == "__main__":
+    base_datos = BaseDatos()
+    base_datos.crear_tablas()
+     # Verificar si existen administradores
+    
     main()
