@@ -86,8 +86,7 @@ class BaseDatos:
             self.desconectar()
     
 #-----------------------------------------------------------------------------------
-
-    # Función genérica para mostrar cualquier tabla
+# Función genérica para mostrar cualquier tabla
     def mostrar_tabla(self, nombre_tabla):
         try:
             self.conexion_bd()
@@ -147,6 +146,7 @@ class BaseDatos:
             print(f"Error al modificar paquete turístico: {e}")
         finally:
             self.desconectar()
+
 #-------------------------------
 # viajes
     # Agregar un viaje
@@ -195,8 +195,8 @@ class BaseDatos:
             print(f"Error al actualizar viaje: {e}")
         finally:
             self.desconectar()
-#-------------------------------------------------------
 
+#-------------------------------------------------------
 # Cliente
     # Agregar cliente
     def agregar_cliente(self, nombre, apellido, email, telefono):
@@ -225,9 +225,8 @@ class BaseDatos:
         finally:
             self.desconectar()
     
-
-    #-----------------------
-#Recervas
+#-----------------------
+#Reservas
     # Agregar reserva
     def agregar_reserva(self, id_cliente, id_viaje, fecha_reserva, cantidad_plazas):
         try:
@@ -249,7 +248,7 @@ class BaseDatos:
         try:
             self.conexion_bd()
             cursor = self.conexion.cursor()
-            sql = f"UPDATE reservas SET {campo} = ? WHERE id_cliente = ?"
+            sql = f"UPDATE reservas SET {campo} = ? WHERE id_reserva = ?"
             cursor.execute(sql, (nuevo_valor, id_reserva ))
             self.conexion.commit()
             print(f"Reserva con ID {id_reserva} actualizado correctamente.")
@@ -257,7 +256,7 @@ class BaseDatos:
             print(f"Error al modificar cliente: {e}")
         finally:
             self.desconectar()
-    #--------------------------------
+#--------------------------------
 # Destino
     # Actualizar destino
     def actualizar_destino(self, id_destino, campo, nuevo_valor):
@@ -285,11 +284,6 @@ class BaseDatos:
             print(f"Error al agregar destino: {e}")
         finally:
             self.desconectar()
-
-
-
-
-
 
 #----------------------------------------------------------------------------------------------------
     
