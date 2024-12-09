@@ -105,8 +105,10 @@ def gestionar_clientes(base_datos):
     while True:
         #sys('cls')  #limpiar la consola, pero que si se vea la tabla???
         menu_subtitulo("Gestión de Clientes")
+        nombre_tabla = "clientes"
         try:
             opcion = int(input("Seleccione una opción: "))
+
             if opcion == 1:  # Agregar cliente
                 nombre = input("Nombre: ").title()
                 apellido = input("Apellido: ").title()
@@ -115,16 +117,32 @@ def gestionar_clientes(base_datos):
                 #cliente = Cliente(None, nombre, apellido, email, telefono)
                 base_datos.agregar_cliente(nombre, apellido, email, telefono)
                 print("Cliente agregado exitosamente.")
+
             elif opcion == 2:  # Mostrar clientes
                 base_datos.mostrar_tabla("clientes")
+                
             elif opcion == 3:  # Actualizar cliente
                 id_cliente = int(input("ID del cliente a actualizar: "))
-                campo = input("Campo a actualizar (nombre, apellido, email, telefono): ").lower()
-                nuevo_valor = input("Nuevo valor: ")
-                base_datos.actualizar_cliente(id_cliente, campo, nuevo_valor)
+                print("Seleccione el campo a actualizar:")
+                print("1. Nombre")
+                print("2. Apellido")
+                print("3. Email")
+                print("4. Teléfono")
+                opcion_campo = int(input("Ingrese el número correspondiente al campo: "))
+                # Mapeo de las opciones a los nombres de los campos
+                campos = {1: "nombre", 2: "apellido", 3: "email", 4: "telefono"}
+                # Verificar si la opción ingresada es válida
+                if opcion_campo in campos:
+                    campo = campos[opcion_campo]
+                    nuevo_valor = input(f"Ingrese el nuevo valor para {campo}: ")
+                    base_datos.actualizar_cliente(id_cliente, campo, nuevo_valor)
+                else:
+                    print("Opción no válida. Por favor, intente de nuevo.")
+
             elif opcion == 4:  # Eliminar cliente
                 id_cliente = int(input("ID del cliente a eliminar: "))
-                base_datos.eliminar_cliente(id_cliente)
+                base_datos.eliminar_por_id("clientes", "id_cliente", id_cliente)
+
             elif opcion == 5:  # Volver
                 break
             else:
@@ -139,24 +157,33 @@ def gestionar_viajes(base_datos):
         try:
             opcion = int(input("Seleccione una opción: "))
             if opcion == 1:  # Agregar viaje
-                destino = input("Destino: ").title()
+                id_paquete = int(input("ID del paquete: "))
                 fecha_salida = input("Fecha de salida (YYYY-MM-DD): ")
                 fecha_regreso = input("Fecha de regreso (YYYY-MM-DD): ")
-                precio = float(input("Precio: "))
                 disponibilidad = int(input("Disponibilidad: "))
-                #viaje = Viaje(None, destino, fecha_salida, fecha_regreso, precio, disponibilidad)
-                base_datos.agregar_viaje( destino, fecha_salida, fecha_regreso, precio, disponibilidad)
-                print("Viaje agregado exitosamente.")
+                base_datos.agregar_viaje(id_paquete, fecha_salida, fecha_regreso, disponibilidad)
+            
             elif opcion == 2:  # Mostrar viajes
-                base_datos.mostrar_tabla("viajes")
+                base_datos.mostrar_todos_viajes()
+
             elif opcion == 3:  # Actualizar viaje
                 id_viaje = int(input("ID del viaje a actualizar: "))
-                campo = input("Campo a actualizar (destino, fecha_salida, fecha_regreso, precio, disponibilidad): ").lower()
-                nuevo_valor = input("Nuevo valor: ")
-                base_datos.actualizar_viaje(id_viaje, campo, nuevo_valor)
+                print("Seleccione el campo a actualizar:")
+                print("1. fecha_salida")
+                print("2. fecha_regreso")
+                print("3. disponibilidad")
+                opcion_campo = int(input("Ingrese el número correspondiente al campo: "))
+                campos = {1: "fecha_salida", 2: "fecha_regreso", 3: "disponibilidad"}
+                if opcion_campo in campos:
+                    campo = campos[opcion_campo]
+                    nuevo_valor = input(f"Ingrese el nuevo valor para {campo}: ")
+                    base_datos.actualizar_viaje(id_viaje, campo, nuevo_valor)
+                else:
+                    print("Opción no válida. Por favor, intente de nuevo.")
+
             elif opcion == 4:  # Eliminar viaje
                 id_viaje = int(input("ID del viaje a eliminar: "))
-                base_datos.eliminar_por_id(id_viaje)
+                base_datos.eliminar_viaje(id_viaje)
             elif opcion == 5:  # Volver
                 break
             else:
@@ -176,37 +203,129 @@ def gestionar_paqueteTuristico(base_datos):
                 precio = float(input("Ingrese el precio del paquete: "))
                 disponibilidad = int(input("Ingrese la disponibilidad (cantidad de plazas): "))
                 base_datos.agregar_paquete(nombre, id_destino, descripcion, precio, disponibilidad)
-            
+                print("Paquete turístico agregado exitosamente.")
+
             elif opcion == 2: # Mostrar paqueteTuristico
                 base_datos.mostrar_tabla("paquetes_turisticos")
                     
             elif opcion == 3: # Actualizar paqueteTuristico
                 id_paquete = int(input("Ingrese el ID del paquete a modificar: "))
-                print("Ingrese los nuevos valores (deje en blanco para mantener el actual):")
-                nombre = input("Nuevo nombre: ")
-                id_destino = input("Nuevo ID del destino: ")
-                descripcion = input("Nueva descripción: ")
-                precio = input("Nuevo precio: ")
-                disponibilidad = input("Nueva disponibilidad: ")
-                base_datos.modificar_paquete(id_paquete, nombre, id_destino, descripcion, precio, disponibilidad)
-            
+                print("Seleccione el campo a actualizar:")
+                print("1. Nombre")
+                print("2. ID del destino")
+                print("3. Descripción")
+                print("4. Precio")
+                print("5. Disponibilidad")
+                opcion_campo = int(input("Ingrese el número correspondiente al campo: "))
+                campo = {1: "nombre", 2: "id_destino", 3: "descripcion", 4: "precio", 5: "disponibilidad"}
+                if opcion_campo in campo:
+                    campo = campo[opcion_campo]
+                    nuevo_valor = input(f"Ingrese el nuevo valor para {campo}: ")
+                    base_datos.actualizar_paquete(id_paquete, campo, nuevo_valor)
+                    print(f"Campo {campo} del paquete turístico actualizado exitosamente.")
+                else:
+                    print("Opción no válida. Por favor, intente de nuevo.")
+
                     
             elif opcion == 4: # Eliminar paqueteTuristico
                 id_paquete = int(input("Ingrese el ID del paquete a eliminar: "))
                 base_datos.eliminar_por_id("paquetes_turisticos", "id_paquete", id_paquete)
                 
             
-            elif opcion == "5": # Volver
-                print("Saliendo del módulo de gestión de paquetes turísticos.")
+            elif opcion == 5:  # Volver
                 break
+            else:
+                print("Por favor, seleccione una opción válida.")
+        except Exception as e:
+            print(f"Error: {e}")
+
+
+                
+def gestionar_reserva(base_datos):
+    while True:
+        menu_subtitulo("Gestión de Reservas")
+        try:
+            opcion = int(input("Seleccione una opción: "))
+            if opcion == 1:  # Agregar reserva
+                id_cliente = int(input("Ingrese el ID del cliente: "))
+                id_viaje = int(input("Ingrese el ID del viaje: "))
+                fecha_reserva = input("Ingrese la fecha de la reserva (YYYY-MM-DD): ")
+                cantidad_plazas = int(input("Ingrese la cantidad de personas: "))
+                base_datos.agregar_reserva(id_cliente, id_viaje, fecha_reserva, cantidad_plazas)
+            
+            elif opcion == 2:  # Mostrar reservas
+                base_datos.mostrar_tabla("reservas")
+            
+            elif opcion == 3:  # Actualizar reserva
+                id_reserva = int(input("Ingrese el ID de la reserva a modificar: "))
+                print("Seleccione el campo a actualizar:")
+                print("1. ID del cliente")
+                print("2. ID del viaje")
+                print("3. Fecha de la reserva")
+                print("4. Cantidad de plazas")
+                opcion_campo = int(input("Ingrese el número correspondiente al campo: "))
+                campos = {1: "id_cliente", 2: "id_viaje", 3: "fecha_reserva", 4: "cantidad_plazas"}
+                if opcion_campo in campos:
+                    campo = campos[opcion_campo]
+                    nuevo_valor = input(f"Ingrese el nuevo valor para {campo}: ")
+                    base_datos.actualizar_reserva(id_reserva, campo, nuevo_valor)
+                else:
+                    print("Opción no válida. Por favor, intente de nuevo.")
+                
+            elif opcion == 4:  # Eliminar reserva
+                id_reserva = int(input("Ingrese el ID de la reserva a eliminar: "))
+                base_datos.eliminar_por_id("reservas", "id_reserva", id_reserva)
+            
+            elif opcion == 5:  # Volver
+                print("Saliendo del módulo de gestión de reservas.")
+                break
+            
             else:
                 print("Opción no válida. Intente nuevamente.")
         except Exception as e:
-                print(f"Error: {e}")
+            print(f"Error: {e}")
 
-                
-#def gestionar_reserva(base_datos):
-#def gestionar_destino(base_datos):
+def gestionar_destino(base_datos):
+    while True:
+        #sys('cls')  # Limpia la consola
+        menu_subtitulo("Gestión de Destinos")
+        try:
+            opcion = int(input("Seleccione una opción: "))
+            if opcion == 1:  # Agregar destino
+                nombre = input("Nombre del destino: ")
+                pais = input("País: ")
+                descripcion = input("Descripción: ")
+                base_datos.agregar_destino(nombre, pais, descripcion)
+
+            elif opcion == 2:  # Mostrar destinos
+                base_datos.mostrar_tabla("destinos")
+
+            elif opcion == 3:  # Actualizar destino
+                id_destino = int(input("ID del destino a actualizar: "))
+                print("Seleccione el campo a actualizar:")
+                print("1. Nombre")
+                print("2. País")
+                print("3. Descripción")
+                opcion_campo = int(input("Ingrese el número correspondiente al campo: "))
+                campos = {1: "nombre", 2: "pais", 3: "descripcion"}
+                if opcion_campo in campos:
+                    campo = campos[opcion_campo]
+                    nuevo_valor = input(f"Ingrese el nuevo valor para {campo}: ")
+                    base_datos.actualizar_destino(id_destino, campo, nuevo_valor)
+                else:
+                    print("Opción no válida. Por favor, intente de nuevo.")
+
+            elif opcion == 4:  # Eliminar destino
+                id_destino = int(input("ID del destino a eliminar: "))
+                base_datos.eliminar_por_id("destinos", "id_destino", id_destino)
+
+            elif opcion == 5:  # Volver
+                break
+            else:
+                print("Por favor, seleccione una opción válida.")
+        except Exception as e:
+            print(f"Error: {e}")
+
 
 
 def main():
@@ -226,9 +345,9 @@ def main():
             elif opcion == 3:
                 gestionar_paqueteTuristico(base_datos)
             elif opcion == 4:
-                print("Gestión de Reservas (en desarrollo)")
+                gestionar_reserva(base_datos)
             elif opcion == 5:
-                print("Gestión de Destinos (en desarrollo)")
+                gestionar_destino(base_datos)
             elif opcion == 6:
                 print("Saliendo del sistema. ¡Hasta luego!")
                 break
