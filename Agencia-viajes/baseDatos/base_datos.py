@@ -13,7 +13,7 @@ class BaseDatos:
     def desconectar(self):
         if self.conexion is not None:
             self.conexion.close()
-
+    # Creacion de tablas
     def crear_tablas(self):
         try:
             self.conexion_bd()
@@ -87,7 +87,7 @@ class BaseDatos:
     
 #-----------------------------------------------------------------------------------
 
-# Función genérica para mostrar cualquier tabla
+    # Función genérica para mostrar cualquier tabla
     def mostrar_tabla(self, nombre_tabla):
         try:
             self.conexion_bd()
@@ -115,10 +115,10 @@ class BaseDatos:
             print(f"Error al eliminar registro en la tabla '{nombre_tabla}': {e}")
         finally:
             self.desconectar()
-#-------------------------------------------------------------------------
-# Funciones específicas para cada tabla
-    
 
+#-------------------------------------------------------------------------
+# paquetes turisticos
+    # Agregar paquetes_turisticos
     def agregar_paquete(self, nombre, id_destino, descripcion, precio, disponibilidad):
         try:
             self.conexion_bd()
@@ -134,8 +134,22 @@ class BaseDatos:
             print(f"Error al agregar paquete turístico: {e}")
         finally:
             self.desconectar()
+    # Actualizar paquetes_turisticos
+    def actualizar_paquete(self, id_paquete, campo, nuevo_valor):
+        try:
+            self.conexion_bd()
+            cursor = self.conexion.cursor()
+            sql = f"UPDATE paquetes_turisticos SET {campo} = ? WHERE id_paquete = ?"
+            cursor.execute(sql, (nuevo_valor, id_paquete))
+            self.conexion.commit()
+            print("Paquete turístico modificado exitosamente.")
+        except Exception as e:
+            print(f"Error al modificar paquete turístico: {e}")
+        finally:
+            self.desconectar()
 #-------------------------------
-# Agregar un viaje
+# viajes
+    # Agregar un viaje
     def agregar_viaje(self, id_paquete, fecha_salida, fecha_regreso, disponibilidad):
         try:
             self.conexion_bd()
@@ -151,19 +165,8 @@ class BaseDatos:
             print(f"Error al agregar viaje: {e}")
         finally:
             self.desconectar()
-            # Cliente
-        def agregar_cliente(self, nombre, apellido, email, telefono):
-            try:
-                self.conexion_bd()
-                cursor = self.conexion.cursor()
-                sql = "INSERT INTO clientes (nombre, apellido, email, telefono) VALUES (?, ?, ?, ?)"
-                cursor.execute(sql, (nombre, apellido, email, telefono))
-                self.conexion.commit()
-                print("Cliente agregado exitosamente.")
-            except Exception as e:
-                print(f"Error al agregar cliente: {e}")
-            finally:
-                self.desconectar()
+
+        
     # Mostrar todos los viajes
     def mostrar_todos_viajes(self):
         try:
@@ -192,15 +195,23 @@ class BaseDatos:
             print(f"Error al actualizar viaje: {e}")
         finally:
             self.desconectar()
+#-------------------------------------------------------
 
-    # Eliminar un viaje
-    def eliminar_viaje(self, id_viaje):
+# Cliente
+    # Agregar cliente
+    def agregar_cliente(self, nombre, apellido, email, telefono):
         try:
-            self.eliminar_por_id("viajes", "id_viaje", id_viaje)
+            self.conexion_bd()
+            cursor = self.conexion.cursor()
+            sql = "INSERT INTO clientes (nombre, apellido, email, telefono) VALUES (?, ?, ?, ?)"
+            cursor.execute(sql, (nombre, apellido, email, telefono))
+            self.conexion.commit()
+            print("Cliente agregado exitosamente.")
         except Exception as e:
-            print(f"Error al eliminar viaje: {e}")
-    #------------------------------
-    
+            print(f"Error al agregar cliente: {e}")
+        finally:
+            self.desconectar()
+    # Actualizar cliente
     def actualizar_cliente(self, id_cliente, campo, nuevo_valor):
         try:
             self.conexion_bd()
@@ -213,24 +224,11 @@ class BaseDatos:
             print(f"Error al modificar cliente: {e}")
         finally:
             self.desconectar()
-
-
     
-    #-------
-    def actualizar_paquete(self, id_paquete, campo, nuevo_valor):
-        try:
-            self.conexion_bd()
-            cursor = self.conexion.cursor()
-            sql = f"UPDATE paquetes_turisticos SET {campo} = ? WHERE id_paquete = ?"
-            cursor.execute(sql, (nuevo_valor, id_paquete))
-            self.conexion.commit()
-            print("Paquete turístico modificado exitosamente.")
-        except Exception as e:
-            print(f"Error al modificar paquete turístico: {e}")
-        finally:
-            self.desconectar()
 
     #-----------------------
+#Recervas
+    # Agregar reserva
     def agregar_reserva(self, id_cliente, id_viaje, fecha_reserva, cantidad_plazas):
         try:
             self.conexion_bd()
@@ -246,6 +244,7 @@ class BaseDatos:
             print(f"Error al agregar reserva: {e}")
         finally:
             self.desconectar()
+    # Agregar reserva
     def actualizar_reserva(self, id_reserva, campo, nuevo_valor):
         try:
             self.conexion_bd()
@@ -259,6 +258,8 @@ class BaseDatos:
         finally:
             self.desconectar()
     #--------------------------------
+# Destino
+    # Actualizar destino
     def actualizar_destino(self, id_destino, campo, nuevo_valor):
         try:
             self.conexion_bd()
@@ -271,7 +272,7 @@ class BaseDatos:
             print(f"Error al modificar destino: {e}")
         finally:
             self.desconectar()
-    
+    # Agregar destino
     def agregar_destino(self, nombre, pais, descripcion):
         try:
             self.conexion_bd()
@@ -290,9 +291,7 @@ class BaseDatos:
 
 
 
-#------------------------------------------------------------------------------------------------------------
-
-#------------
+#----------------------------------------------------------------------------------------------------
     
     def insertar_datos_iniciales(self):
         try:
