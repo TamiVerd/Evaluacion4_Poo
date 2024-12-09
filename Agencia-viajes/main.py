@@ -16,9 +16,6 @@ def agregar_cliente(base_datos):
         base_datos.agregar_cliente(cliente)
         print("Cliente agregado exitosamente.")
 
-def mostrar_clientes(base_datos):
-        base_datos.mostrar_todos_clientes()
-
 def actualizar_cliente(base_datos):
         id_cliente = int(input("ID del cliente: "))
         campo = input("Campo a actualizar (nombre, apellido, email, telefono): ").lower()
@@ -74,6 +71,7 @@ def eliminar_viaje(base_datos):
 #--------------------------------------------
 #funciones paqueteTuristico
 
+
 #--------------------------------------------
 #funciones reserva
 
@@ -114,8 +112,8 @@ def gestionar_clientes(base_datos):
                 apellido = input("Apellido: ").title()
                 email = input("Email: ").lower()
                 telefono = input("Teléfono: ")
-                cliente = Cliente(None, nombre, apellido, email, telefono)
-                base_datos.agregar_cliente(cliente)
+                #cliente = Cliente(None, nombre, apellido, email, telefono)
+                base_datos.agregar_cliente(nombre, apellido, email, telefono)
                 print("Cliente agregado exitosamente.")
             elif opcion == 2:  # Mostrar clientes
                 base_datos.mostrar_tabla("clientes")
@@ -146,11 +144,11 @@ def gestionar_viajes(base_datos):
                 fecha_regreso = input("Fecha de regreso (YYYY-MM-DD): ")
                 precio = float(input("Precio: "))
                 disponibilidad = int(input("Disponibilidad: "))
-                viaje = Viaje(None, destino, fecha_salida, fecha_regreso, precio, disponibilidad)
-                base_datos.agregar_viaje(viaje)
+                #viaje = Viaje(None, destino, fecha_salida, fecha_regreso, precio, disponibilidad)
+                base_datos.agregar_viaje( destino, fecha_salida, fecha_regreso, precio, disponibilidad)
                 print("Viaje agregado exitosamente.")
             elif opcion == 2:  # Mostrar viajes
-                base_datos.mostrar_todos_viajes()
+                base_datos.mostrar_tabla("viajes")
             elif opcion == 3:  # Actualizar viaje
                 id_viaje = int(input("ID del viaje a actualizar: "))
                 campo = input("Campo a actualizar (destino, fecha_salida, fecha_regreso, precio, disponibilidad): ").lower()
@@ -171,7 +169,7 @@ def gestionar_paqueteTuristico(base_datos):
         menu_subtitulo("Gestión de Paquetes Turísticos")
         try:
             opcion = int(input("Seleccione una opción: "))
-            if opcion == 1:
+            if opcion == 1: # Agregar paqueteTuristico
                 nombre = input("Ingrese el nombre del paquete: ")
                 id_destino = int(input("Ingrese el ID del destino asociado: "))
                 descripcion = input("Ingrese una descripción: ")
@@ -179,24 +177,26 @@ def gestionar_paqueteTuristico(base_datos):
                 disponibilidad = int(input("Ingrese la disponibilidad (cantidad de plazas): "))
                 base_datos.agregar_paquete(nombre, id_destino, descripcion, precio, disponibilidad)
             
-            elif opcion == "2":
-                    id_paquete = int(input("Ingrese el ID del paquete a modificar: "))
-                    print("Ingrese los nuevos valores (deje en blanco para mantener el actual):")
-                    nombre = input("Nuevo nombre: ")
-                    id_destino = input("Nuevo ID del destino: ")
-                    descripcion = input("Nueva descripción: ")
-                    precio = input("Nuevo precio: ")
-                    disponibilidad = input("Nueva disponibilidad: ")
-                    base_datos.modificar_paquete(id_paquete, nombre, id_destino, descripcion, precio, disponibilidad)
-            
-            elif opcion == "3":
-                    id_paquete = int(input("Ingrese el ID del paquete a eliminar: "))
-                    base_datos.eliminar_por_id("paquetes_turisticos", "id_paquete", id_paquete)
-                
-            elif opcion == "4":
+            elif opcion == 2: # Mostrar paqueteTuristico
                 base_datos.mostrar_tabla("paquetes_turisticos")
+                    
+            elif opcion == 3: # Actualizar paqueteTuristico
+                id_paquete = int(input("Ingrese el ID del paquete a modificar: "))
+                print("Ingrese los nuevos valores (deje en blanco para mantener el actual):")
+                nombre = input("Nuevo nombre: ")
+                id_destino = input("Nuevo ID del destino: ")
+                descripcion = input("Nueva descripción: ")
+                precio = input("Nuevo precio: ")
+                disponibilidad = input("Nueva disponibilidad: ")
+                base_datos.modificar_paquete(id_paquete, nombre, id_destino, descripcion, precio, disponibilidad)
             
-            elif opcion == "5":
+                    
+            elif opcion == 4: # Eliminar paqueteTuristico
+                id_paquete = int(input("Ingrese el ID del paquete a eliminar: "))
+                base_datos.eliminar_por_id("paquetes_turisticos", "id_paquete", id_paquete)
+                
+            
+            elif opcion == "5": # Volver
                 print("Saliendo del módulo de gestión de paquetes turísticos.")
                 break
             else:
@@ -224,7 +224,7 @@ def main():
             elif opcion == 2:
                 gestionar_viajes(base_datos)
             elif opcion == 3:
-                print("Gestión de Paquetes Turísticos (en desarrollo)")
+                gestionar_paqueteTuristico(base_datos)
             elif opcion == 4:
                 print("Gestión de Reservas (en desarrollo)")
             elif opcion == 5:
